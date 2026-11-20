@@ -1,0 +1,48 @@
+<dialog class="gate" id="gate" aria-labelledby="gate-title" aria-describedby="gate-desc">
+  <div class="gate__door gate__door--l" aria-hidden="true"></div>
+  <div class="gate__door gate__door--r" aria-hidden="true"></div>
+  <span class="gate__seam" aria-hidden="true"></span>
+  <div class="gate__inner">
+    <p class="gate__word">Héloïse Lloris<small>Champagne</small></p>
+    <div class="gate__ask">
+      <p class="gate__eyebrow">Before we uncork</p>
+      <h2 class="gate__title" id="gate-title">Every great Champagne has its vintage.<em>What is yours?</em></h2>
+      <p class="gate__desc" id="gate-desc">Turn the dial to the year you were born.</p>
+      <div class="dial">
+        <button class="dial__step" type="button" data-step="-1" aria-label="Earlier year">‹</button>
+        <div class="dial__window">
+          <p class="dial__label" aria-hidden="true">Vintage</p>
+          <ol class="dial__reel" role="listbox" tabindex="0" aria-label="Year of birth"></ol>
+        </div>
+        <button class="dial__step" type="button" data-step="1" aria-label="Later year">›</button>
+      </div>
+      <div class="gate__confirm" hidden>
+        <p>Has your 18th birthday already passed this year?</p>
+        <div class="gate__yn"><button class="gate__btn gate__btn--ghost" type="button" data-bday="yes">Yes</button><button class="gate__btn gate__btn--ghost" type="button" data-bday="no">Not yet</button></div>
+      </div>
+      <button class="gate__btn" type="button" data-enter>Uncork</button>
+      <label class="gate__remember"><input type="checkbox" checked> Remember me on this device for 30 days</label>
+    </div>
+    <div class="gate__wait" hidden>
+      <p class="gate__eyebrow">Patience</p>
+      <h2 class="gate__title">The finest vintages are <em>worth the wait.</em></h2>
+      <p class="gate__desc">You must be of legal drinking age to enter. We look forward to welcoming you <span data-wait>in a few years</span>.</p>
+      <a class="gate__btn gate__btn--ghost" href="https://www.drinkaware.co.uk/" rel="noopener">Visit drinkaware.co.uk</a>
+    </div>
+    <p class="gate__legal">You must be of legal drinking age in your country of residence to enter this site. Please enjoy responsibly.</p>
+  </div>
+</dialog>
+<script>
+  /* open the gate before anything paints, unless this device was verified in the last 30 days */
+  (function () {
+    var ok = false;
+    try { ok = +localStorage.getItem("hl-age-ok") > Date.now(); } catch (e) {}
+    var g = document.getElementById("gate");
+    if (ok) { g.remove(); return; }
+    var h = document.documentElement;
+    h.classList.add("gated");
+    g.showModal();
+    var done = function () { h.classList.add("fonts-in"); };
+    if (document.fonts && document.fonts.ready) { document.fonts.ready.then(done); setTimeout(done, 1200); } else { done(); }
+  })();
+</script>
