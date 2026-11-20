@@ -236,7 +236,7 @@ em { font-style: italic; }
 @keyframes rise { from { transform: translateY(40%); } to { transform: none; } }
 @keyframes fade { from { opacity: 0; transform: translateY(1rem); } to { opacity: 1; transform: none; } }
 
-.hero__bottle { grid-area: bottle; position: relative; margin: 0; isolation: isolate; height: min(80svh, 860px); aspect-ratio: 420 / 1491; animation: bottle-in 1.8s var(--ease) both; }
+.hero__bottle { grid-area: bottle; position: relative; margin: 0; isolation: isolate; height: min(74svh, 820px); aspect-ratio: 420 / 1491; animation: bottle-in 1.8s var(--ease) both; }
 .hero__bottle img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 40px 60px rgb(0 0 0 / .7)) drop-shadow(0 0 40px color-mix(in oklab, var(--gold-3) 35%, transparent)); animation: float 9s ease-in-out 1.8s infinite; }
 .hero__bottle .halo { position: absolute; z-index: -1; left: 50%; top: 52%; width: 250%; aspect-ratio: 1; translate: -50% -50%; border-radius: 50%; border: 1px solid color-mix(in oklab, var(--gold-2) 45%, transparent); box-shadow: 0 0 0 18px color-mix(in oklab, var(--gold-2) 5%, transparent), inset 0 0 120px color-mix(in oklab, var(--gold-3) 22%, transparent); animation: halo 2.4s var(--ease) .3s both; }
 .hero__bottle .halo::before { content: ""; position: absolute; inset: 7%; border-radius: 50%; border: 1px dashed color-mix(in oklab, var(--gold-2) 22%, transparent); animation: spin 120s linear infinite; }
