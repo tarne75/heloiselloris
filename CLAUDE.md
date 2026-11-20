@@ -74,6 +74,7 @@ Section order changed from the original (Home, Excellence, Collection, About) to
 * "Remember me" stores an expiry timestamp in `localStorage` (`hl-age-ok`, 30 days). Clear it to see the gate again.
 * The gate is a modal `<dialog>` opened by an inline script immediately after its markup, so the page never flashes before the gate. Esc is blocked. Copy waits for web fonts (max 1.2s) so nothing shifts.
 * Dial input: drag, swipe, mouse wheel, arrow buttons, ←/→ (1 year), PageUp/PageDown (10 years), Home/End, Enter to uncork.
+* Performance on the gated page: `build.py` swaps the hero image preload for a `crest.svg` preload and turns the bottle's `srcset` into `data-gate-srcset`; `gate.js` (or the inline opener, for remembered visitors) restores it. Without this the hidden bottle competed with the doors and cost a point on mobile.
 
 ## Contact form
 
