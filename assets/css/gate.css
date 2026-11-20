@@ -143,3 +143,6 @@ html.opening main, html.opening .masthead { opacity: 1; transition: opacity 1.4s
 @media (prefers-reduced-motion: reduce) {
   .gate.is-opening .gate__door { transition-duration: .01ms; transition-delay: 0s; }
 }
+
+/* nothing behind the doors competes for bandwidth with the gate */
+html.gated .hero__bottle .sweep { display: none; }

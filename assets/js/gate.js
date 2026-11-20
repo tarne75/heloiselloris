@@ -133,6 +133,8 @@
   }
 
   function uncork() {
+    const bottle = document.querySelector("img[data-gate-srcset]");
+    if (bottle) bottle.srcset = bottle.dataset.gateSrcset;
     if (remember.checked) {
       try { localStorage.setItem("hl-age-ok", String(Date.now() + DAYS * 864e5)); } catch (e) {}
     }

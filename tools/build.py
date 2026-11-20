@@ -22,10 +22,18 @@ gate_css = (root / "assets" / "css" / "gate.css").read_text(encoding="utf-8").re
 CSS = '<link rel="stylesheet" href="assets/css/site.css">'
 BODY = "<body>\n"
 JS = '<script src="assets/js/site.js" defer></script>'
-for hook in (CSS, BODY, JS):
+import re
+# On the gated page the doors (crest.svg) are the first thing seen, not the bottle:
+# preload the crest instead of the hero image so it wins the bandwidth race.
+IMG_PRELOAD = re.search(r'<link rel="preload" as="image"[^\n]*\n', page).group(0)
+for hook in (CSS, BODY, JS, IMG_PRELOAD):
     assert hook in page, f"hook missing from index.html: {hook!r}"
 
 out = (page
+       .replace(IMG_PRELOAD, '<link rel="preload" as="image" type="image/svg+xml" href="assets/img/crest.svg" fetchpriority="high">\n', 1)
+       .replace('alt="A bottle of Héloïse Lloris Vintage 1996, encased in hammered 24K gold" fetchpriority="high"', 'alt="A bottle of Héloïse Lloris Vintage 1996, encased in hammered 24K gold"', 1)
+       # hero bottle is hidden behind the doors: gate.js gives it its srcset when the case opens
+       .replace('<img src="assets/img/bottle-gold-420.webp" srcset=', '<img data-gate-srcset=', 1)
        .replace(CSS, CSS + "\n<style>\n" + gate_css + "\n</style>", 1)
        .replace(BODY, BODY + gate, 1)
        .replace(JS, JS + '\n<script src="assets/js/gate.js" defer></script>', 1)

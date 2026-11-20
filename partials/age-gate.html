@@ -38,8 +38,16 @@
     var ok = false;
     try { ok = +localStorage.getItem("hl-age-ok") > Date.now(); } catch (e) {}
     var g = document.getElementById("gate");
-    if (ok) { g.remove(); return; }
+    if (ok) {
+      g.remove();
+      document.addEventListener("DOMContentLoaded", function () {
+        var b = document.querySelector("img[data-gate-srcset]");
+        if (b) b.srcset = b.dataset.gateSrcset;
+      });
+      return;
+    }
     var h = document.documentElement;
+    if ("scrollRestoration" in history) history.scrollRestoration = "manual"; /* the doors open onto the top of the page */
     h.classList.add("gated");
     g.showModal();
     var done = function () { h.classList.add("fonts-in"); };

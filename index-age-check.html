@@ -18,7 +18,7 @@
 <link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="manifest" href="site.webmanifest">
-<link rel="preload" as="image" type="image/webp" href="assets/img/bottle-gold-420.webp" imagesrcset="assets/img/bottle-gold-260.webp 260w, assets/img/bottle-gold-420.webp 420w, assets/img/bottle-gold-640.webp 640w" imagesizes="(max-width: 760px) 34vw, 15vw" fetchpriority="high">
+<link rel="preload" as="image" type="image/svg+xml" href="assets/img/crest.svg" fetchpriority="high">
 <link rel="preload" href="assets/fonts/cinzel.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/cormorant.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/css/site.css">
@@ -168,6 +168,9 @@ html.opening main, html.opening .masthead { opacity: 1; transition: opacity 1.4s
 @media (prefers-reduced-motion: reduce) {
   .gate.is-opening .gate__door { transition-duration: .01ms; transition-delay: 0s; }
 }
+
+/* nothing behind the doors competes for bandwidth with the gate */
+html.gated .hero__bottle .sweep { display: none; }
 </style>
 <script>document.documentElement.classList.add("js")</script>
 <script type="application/ld+json">
@@ -215,8 +218,16 @@ html.opening main, html.opening .masthead { opacity: 1; transition: opacity 1.4s
     var ok = false;
     try { ok = +localStorage.getItem("hl-age-ok") > Date.now(); } catch (e) {}
     var g = document.getElementById("gate");
-    if (ok) { g.remove(); return; }
+    if (ok) {
+      g.remove();
+      document.addEventListener("DOMContentLoaded", function () {
+        var b = document.querySelector("img[data-gate-srcset]");
+        if (b) b.srcset = b.dataset.gateSrcset;
+      });
+      return;
+    }
     var h = document.documentElement;
+    if ("scrollRestoration" in history) history.scrollRestoration = "manual"; /* the doors open onto the top of the page */
     h.classList.add("gated");
     g.showModal();
     var done = function () { h.classList.add("fonts-in"); };
@@ -272,7 +283,7 @@ html.opening main, html.opening .masthead { opacity: 1; transition: opacity 1.4s
     </div>
     <figure class="hero__bottle">
       <span class="halo" aria-hidden="true"></span>
-      <img src="assets/img/bottle-gold-420.webp" srcset="assets/img/bottle-gold-260.webp 260w, assets/img/bottle-gold-420.webp 420w, assets/img/bottle-gold-640.webp 640w" sizes="(max-width: 760px) 34vw, 15vw" width="420" height="1491" alt="A bottle of Héloïse Lloris Vintage 1996, encased in hammered 24K gold" fetchpriority="high">
+      <img data-gate-srcset="assets/img/bottle-gold-260.webp 260w, assets/img/bottle-gold-420.webp 420w, assets/img/bottle-gold-640.webp 640w" sizes="(max-width: 760px) 34vw, 15vw" width="420" height="1491" alt="A bottle of Héloïse Lloris Vintage 1996, encased in hammered 24K gold">
       <span class="sweep" aria-hidden="true"></span>
     </figure>
     <aside class="hero__aside">
